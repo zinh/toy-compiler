@@ -14,6 +14,7 @@
   (match e
          [(Int i) (compile-int i)]
          [(Op1 op e) (compile-op1 op e)]
+         [(IfZero e1 e2 e3) (compile-if-zero e1 e2 e3)]
          ))
 
 (define (compile-int i)
@@ -26,3 +27,15 @@
               ['sub1 (Sub 'rax 1)]
               )
   ))
+
+(define (compile-if-zero e1 e2 e3)
+  (let ((l0 (gensym 'if))
+        (l1 (gensym 'if)))
+    (append (compile-e e1)
+            (list (Cmp 'rax 0)
+                  (Je l0))
+            (compile-e e3)
+            (list (Jmp l1)
+                  (Label l0))
+            (compile-e e2)
+            (list (Label l1)))))
