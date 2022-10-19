@@ -1,6 +1,7 @@
 #lang racket
 
-(provide Int Op1 IfZero)
+(provide Int Bool Op1 If)
 (struct Int (i))
+(struct Bool (b))
 (struct Op1 (op e))
-(struct IfZero (e1 e2 e3))
+(struct If (e1 e2 e3))
